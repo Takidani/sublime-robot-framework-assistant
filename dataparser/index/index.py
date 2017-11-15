@@ -8,10 +8,10 @@ from json import dump as json_dump
 from collections import namedtuple
 from parser_utils.file_formatter import rf_table_name, lib_table_name
 from parser_utils.util import get_index_name
-from queue.queue import ParsingQueue
+from my_queue.queue import ParsingQueue
 from data_parser.data_parser import DataParser
 from db_json_settings import DBJsonSetting
-from queue.finder import finder
+from my_queue.finder import finder
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
@@ -221,10 +221,10 @@ class Index(object):
         arg_list = []
         if DBJsonSetting.keywords in data:
             kws = data[DBJsonSetting.keywords]
-            for kw in kws.iterkeys():
-                kw_list.append(kws[kw][DBJsonSetting.keyword_name])
+            for kw, value in kws.items():
+                kw_list.append(value[DBJsonSetting.keyword_name])
                 kw_args = self.get_kw_arguments(
-                    kws[kw][DBJsonSetting.keyword_arguments])
+                    value[DBJsonSetting.keyword_arguments])
                 arg_list.append(kw_args)
         return kw_list, arg_list
 
